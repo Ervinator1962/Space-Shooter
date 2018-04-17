@@ -50,4 +50,9 @@ public class BoltController : MonoBehaviour {
     {
         if (other.tag == "Boundary") gameController.ResetAsteroidsDestroyed();
     }
+
+    public void BoltDestroy()
+    {
+        Destroy(gameObject);
+    }
 }

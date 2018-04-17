@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Game_Controller : MonoBehaviour
 {
+    private int round;
     private Player1Controller player1;
 
     public GameObject hazard;
@@ -18,6 +19,9 @@ public class Game_Controller : MonoBehaviour
     public GUIText gameOverText;
     public GUIText restartText;
     public GUIText superText;
+    public GUIText roundText;
+
+    public int asteroidDamage;
 
     public bool gameOver;
     private bool restart;
@@ -32,6 +36,7 @@ public class Game_Controller : MonoBehaviour
     private void Start()
     {
         score = 0;
+        round = 0;
         playerAlive = true;
         health = 100;
         gameOver = false;
@@ -39,6 +44,7 @@ public class Game_Controller : MonoBehaviour
         restartText.text = "";
         gameOverText.text = "";
         superText.text = "";
+        scoreText.text = "";
         UpdateScore();
         UpdateHealth();
         StartCoroutine(SpawnWaves());
@@ -80,10 +86,13 @@ public class Game_Controller : MonoBehaviour
         yield return new WaitForSeconds(startWait);
         while(true)
         {
+            round += 1;
+            roundText.text = "Wave " + round;
             for (int i = 0; i < hazardCount; i++)
             {
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                 Quaternion spawnRotation = Quaternion.identity;
+                if (i == 3) roundText.text = "";
                 if (gameOver == false)
                 {
                     Instantiate(hazard, spawnPosition, spawnRotation);
@@ -122,10 +131,10 @@ public class Game_Controller : MonoBehaviour
         UpdateScore();
     }
 
-    public void DecreaseHealth(int damage)
+    public void DecreaseHealth()
     {
         //hacky way to prevent over-decreasing health
-        health -= damage;
+        health -= asteroidDamage;
         UpdateHealth();
     }
 

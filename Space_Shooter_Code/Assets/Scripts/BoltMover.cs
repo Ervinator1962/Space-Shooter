@@ -18,4 +18,9 @@ public class BoltMover : MonoBehaviour {
     {
         boltDirection = direction;
     }
+
+    public void SetBoltRotation(Quaternion rotation)
+    {
+        transform.rotation = rotation;
+    }
 }

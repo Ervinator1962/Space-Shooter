@@ -5,7 +5,7 @@ using UnityEngine;
 public class DestroyByBoundary : MonoBehaviour
 {
     private Game_Controller gameController;
-    public int asteroidDamage;
+
     private void Start()
     {
         GameObject gameControllerObject = GameObject.FindWithTag("GameController");
@@ -23,9 +23,8 @@ public class DestroyByBoundary : MonoBehaviour
     {
         if (other.tag == "Asteroid" && gameController.gameOver == false)
         {
-            DestroyByContact asteroid = other.gameObject.GetComponent<DestroyByContact>();
-            asteroid.InstantiateExplosion();
-            gameController.DecreaseHealth(asteroidDamage);
+            AsteroidController asteroid = other.gameObject.GetComponent<AsteroidController>();
+            gameController.DecreaseHealth();
         }
         Destroy(other.gameObject);
     }

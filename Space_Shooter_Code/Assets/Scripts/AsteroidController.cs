@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyByContact : MonoBehaviour
+public class AsteroidController : MonoBehaviour
 {
     private Player1Controller player1;
     private Game_Controller gameController;
@@ -11,7 +11,7 @@ public class DestroyByContact : MonoBehaviour
 
     private void Start()
     {
-        
+
         GameObject player1object = GameObject.FindWithTag("Player1");
         if (player1object != null)
         {
@@ -35,17 +35,26 @@ public class DestroyByContact : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Boundary" || other.tag == "Player2" || other.tag == "Bolt2") return;
-        InstantiateExplosion();
         //To Do: Make every object handle their own Destroy function
-        if (other.tag == "Player1") {
+        if (other.tag == "Player1")
+        {
             gameController.healthToZero();
-        } 
-        gameController.AddScore(scoreValue);
-        Destroy(gameObject);
+        } else
+        {
+            gameController.AddScore(scoreValue);
+        }
+        AsteroidDestroy();
     }
 
-    public void InstantiateExplosion()
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag != "Boundary") return;
+        Instantiate(explosion, transform.position, transform.rotation);
+    }
+
+    public void AsteroidDestroy()
     {
         Instantiate(explosion, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 }
